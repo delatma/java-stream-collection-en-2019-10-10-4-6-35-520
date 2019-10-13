@@ -34,15 +34,11 @@ public class MyMap {
     }
 
     public List<String> mapLetters() {
-        return array.stream()
-                .map(number -> {
-                    int onesPlace = (number - 1) % 26;
-                    int tensPlace = (number - 1) / 26;
-
-                    if (tensPlace == 0) {
-                        return letters[onesPlace];
-                    }
-                    return letters[tensPlace - 1] + letters[onesPlace];
+        return this.array.stream()
+                .map(num -> {
+                    --num;
+                    return num > 25 ? letterList.get(num / 26 - 1) + letterList.get(num % 26):
+                            letterList.get(num % 26);
                 })
                 .collect(Collectors.toList());
     }

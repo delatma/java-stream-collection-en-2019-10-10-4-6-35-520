@@ -6,42 +6,28 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Comparator;
 import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.stream.*;
+
+import static java.lang.System.out;
 
 public class Add {
     public int getSumOfEvens(int leftBorder, int rightBorder) {
-        int total = 0;
+        int firstNumber = Math.min(leftBorder, rightBorder);
+        int secondNumber = Math.max(leftBorder, rightBorder);
 
-        if(leftBorder < rightBorder) {
-            for(int i=leftBorder; i <= rightBorder; i++){
-                if(i % 2 == 0) {
-                    total += i;
-                }
-            }
-        }
-        else{
-            for(int i=rightBorder; i <= leftBorder; i++){
-                if(i % 2 == 0) {
-                    total += i;
-                }
-            }
-        }
-        return total;
+        return IntStream.rangeClosed(firstNumber,secondNumber)
+                .filter(n -> n % 2 == 0)
+                .sum();
     }
 
     public int getSumOfOdds(int leftBorder, int rightBorder) {
-        int total = 0;
-        if(leftBorder > rightBorder) {
-            int temp = leftBorder;
-            leftBorder = rightBorder;
-            rightBorder = temp;
-        }
-        for(int i=leftBorder; i <= rightBorder; i++){
-            if(i % 2 != 0) {
-                total += i;
-            }
-        }
-        return total;
+        int firstNumber = Math.min(leftBorder, rightBorder);
+        int secondNumber = Math.max(leftBorder, rightBorder);
+
+        return IntStream.rangeClosed(firstNumber,secondNumber)
+                .filter(n -> n % 2 != 0)
+                .sum();
+
     }
 
     public int getSumTripleAndAddTwo(List<Integer> arrayList) {

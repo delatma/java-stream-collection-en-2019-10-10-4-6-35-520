@@ -4,6 +4,9 @@ import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Comparator;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 public class Add {
     public int getSumOfEvens(int leftBorder, int rightBorder) {
@@ -71,28 +74,53 @@ public class Add {
         }
         return total;
     }
-//
-//    public double getMedianOfEven(List<Integer> arrayList) {
-//        throw new NotImplementedException();
-//    }
-//
-//    public double getAverageOfEven(List<Integer> arrayList) {
-//        throw new NotImplementedException();
-//    }
-//
-//    public boolean isIncludedInEvenIndex(List<Integer> arrayList, Integer specialElment) {
-//        throw new NotImplementedException();
-//    }
-//
-//    public List<Integer> getUnrepeatedFromEvenIndex(List<Integer> arrayList) {
-//        throw new NotImplementedException();
-//    }
-//
-//    public List<Integer> sortByEvenAndOdd(List<Integer> arrayList) {
-//        throw new NotImplementedException();
-//    }
-//
-//    public List<Integer> getProcessedList(List<Integer> arrayList) {
-//        throw new NotImplementedException();
-//    }
+
+    public double getMedianOfEven(List<Integer> arrayList) {
+        return arrayList.stream()
+                .filter(a -> a%2 == 0)
+                .sorted(Comparator.naturalOrder())
+                .reduce(0, (subtotal , element) -> subtotal+element / 2 );
+    }
+
+    public double getAverageOfEven(List<Integer> arrayList) {
+        return arrayList.stream()
+                .filter(a -> a%2 == 0)
+                .mapToDouble(a -> a)
+                .average().orElse(0);
+    }
+
+    public boolean isIncludedInEvenIndex(List<Integer> arrayList, Integer specialElment) {
+        return arrayList.contains(specialElment) && specialElment % 2 == 0;
+    }
+
+    public List<Integer> getUnrepeatedFromEvenIndex(List<Integer> arrayList) {
+        return arrayList.stream()
+                .filter(a -> a % 2 == 0)
+                .distinct()
+                .collect(Collectors.toList());
+    }
+
+    public List<Integer> sortByEvenAndOdd(List<Integer> arrayList) {
+        List<Integer> even = arrayList.stream()
+                .filter(a -> a % 2 == 0)
+                .sorted()
+                .collect(Collectors.toList());
+        List<Integer> odd = arrayList.stream()
+                .filter(a -> a % 2 != 0)
+                .sorted(Comparator.reverseOrder())
+                .collect(Collectors.toList());
+
+        even.addAll(odd);
+        return even;
+    }
+
+    public List<Integer> getProcessedList(List<Integer> arrayList) {
+        List<Integer> processedList = new ArrayList<>();
+        for (int curIndex = 0, nextIndex=1; nextIndex < arrayList.size(); curIndex++, nextIndex++) {
+            Integer currentValue = arrayList.get(curIndex);
+            Integer nextValue = arrayList.get(nextIndex);
+            processedList.add((currentValue + nextValue) * 3);
+        }
+        return processedList;
+    }
 }
